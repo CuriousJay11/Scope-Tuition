@@ -2,6 +2,7 @@ list = ['1','2','3','4','5','6','7']
 print(list[2:4])
 print(list[:4])
 
+
 thislist = ['Red','Orange','Blue','Green']
 if "Red" in thislist:
     print("Yes")
@@ -38,3 +39,5 @@ print(mylist)
 
 mylist.clear()
 print(mylist)
+
+
