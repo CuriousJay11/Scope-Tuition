@@ -20,9 +20,9 @@ headers = {
 base_response = r.get(base_url, headers=headers)
 cookies = base_response.cookies
 
-def track_prices():
-    print(datetime.now())
-    for prod in product_list:
+
+print(datetime.now())
+for prod in product_list:
       product_response = r.get(url+prod, headers=headers, cookies=cookies)
       soup = BeautifulSoup(product_response.text, "lxml")
       price_lines = soup.find_all(class_="a-price-whole")
@@ -33,8 +33,3 @@ def track_prices():
       print(url+prod, final_price)
 
 
-schedule.every(10).seconds.do(track_prices)
-
-while True:
-   schedule.run_pending
-   time.sleep(1)

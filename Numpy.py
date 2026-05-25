@@ -147,3 +147,43 @@ print(a)
 print(x)
 
 #How to reshape dimesions 1d to 2d
+#No of elements in each dimension
+#Convert 10 with 12 element into 2d array
+
+a = np.array([1,2,3,4,5,6,7,8,9,10,11,12])
+print(a)
+b = a.reshape(3,4)
+print(b)
+
+#1d to 3d
+c = a.reshape(2,2,3)
+print(c)
+
+#(2,2,2)
+
+#Blocks,Rows,Columns
+
+z = np.array([1,2,3,4,5,6,7,8])
+e = z.reshape (2,2,-1)
+print(e)
+print(a.reshape(2,-1))
+
+
+arr = np.array([[1,2,3],[4,5,6]])
+newarr = arr.reshape(6)
+print(newarr)
+
+
+#Flatten() to convert any array to 1d
+#Ravel( to convert any array to 1d)
+#Transpose() - Convert rows to columns
+
+a = np.array([[1,2],[3,4]])
+print(a.flatten())
+       #OR 
+
+a = np.array([[1,2],[3,4]])
+print(a.ravel())
+
+a = np.array([[1,2,3],[4,5,6]])
+print(a.T)

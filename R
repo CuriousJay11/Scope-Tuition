@@ -1,84 +1,33 @@
-from tkinter import *
+import time
 
-window=Tk()
+def countdown_timer(seconds):
+    """
+    Countdown timer that displays remaining time in MM:SS format.
+    :param seconds: Total countdown time in seconds (int)
+    """
+    # Validate input
+    if not isinstance(seconds, int) or seconds <= 0:
+        print("Please enter a positive integer for seconds.")
+        return
 
-window.title("Password Strength Checker") #Used to give the title 
-window.geometry("1000x1000") #size of window
-window.configure(bg="Orange")
+    print(f"Starting countdown for {seconds} seconds...\n")
+    while seconds:
+        mins, secs = divmod(seconds, 60)  # Convert to minutes and seconds
+        timer_display = f"{mins:02d}:{secs:02d}"
+        print(timer_display, end="\r")  # Overwrite the same line
+        time.sleep(1)  # Wait for 1 second
+        seconds -= 1
 
-Welcome = Label(window,text="Welcome to Jay's RestoBar",bg="White",fg="Black",font=("Cosmic Sans",30))
-Welcome.place(x=100,y=100)
-
-Maincourse = Label(window,text="Select Main Course",bg="White",font=("Cosmic Sans",12))
-Maincourse.place(x=200,y=200)
-
-Drink = Label(window,text="Select Drink",bg="White",font=("Cosmic Sans",12))
-Drink.place(x=200,y=250)
-
-Dessert = Label(window,text="Select Dessert",bg="White",font=("Cosmic Sans",12))
-Dessert.place(x=200,y=300)
-
-result = Label(window,fg="Black",font=("Cosmic Sans",30))
-result.place(x=200,y=450)
-
-MaincourseSelection = Spinbox(window,bg="Beige",values=("Seafood Predator Pizza","Pepperoni Chickenoni Pizza","Classic Marghrita Pizza","Vegetable Farmhouse"))
-MaincourseSelection.place(x=400,y=200)
-DrinkSelection = Spinbox(window,bg="Beige",values=("Virgin Mojito","Pacific Blue","Blood Moon Red","Coke","Pepsi","Limeca"))
-DrinkSelection.place(x=400,y=250)
-DessertSelection = Spinbox(window,bg="Beige",values=("Tres Leches","Choco Monte Ice Cream Sundae","Medusa's Lair","Chcolate Milkshake","Kunafa Pastry","Apple Pie"))
-DessertSelection.place(x=400,y=300)
-
-def TotalCost():
-
-    MainCourseOrder = MaincourseSelection.get()
-    DrinkOrder = DrinkSelection.get()
-    DessertOrder = DessertSelection.get()
-
-    Cost = 0
-
-    # Main Course Prices
-    if MainCourseOrder == "Seafood Predator Pizza":
-        Cost += 480
-    elif MainCourseOrder == "Pepperoni Chickenoni Pizza":
-        Cost += 420
-    elif MainCourseOrder == "Classic Marghrita Pizza":
-        Cost += 350
-    elif MainCourseOrder == "Vegetable Farmhouse":
-        Cost += 380
+    print("00:00\nTime's up! ⏰")
 
 
-    # Drink Prices
-    if DrinkOrder == "Virgin Mojito":
-        Cost += 120
-    elif DrinkOrder == "Pacific Blue":
-        Cost += 140
-    elif DrinkOrder == "Blood Moon Red":
-        Cost += 150
-    elif DrinkOrder == "Coke":
-        Cost += 60
-    elif DrinkOrder == "Pepsi":
-        Cost += 60
-    elif DrinkOrder == "Limeca":
-        Cost += 60
+def main():
+    try:
+        user_input = int(input("Enter countdown time in seconds: "))
+        countdown_timer(user_input)
+    except ValueError:
+        print("Invalid input. Please enter a valid integer.")
 
-
-    # Dessert Prices
-    if DessertOrder == "Tres Leches":
-        Cost += 180
-    elif DessertOrder == "Choco Monte Ice Cream Sundae":
-        Cost += 200
-    elif DessertOrder == "Medusa's Lair":
-        Cost += 220
-    elif DessertOrder == "Chcolate Milkshake":
-        Cost += 150
-    elif DessertOrder == "Kunafa Pastry":
-        Cost += 210
-    elif DessertOrder == "Apple Pie":
-        Cost += 170
-
-
-    result.config(text=Cost)
-
-TotalBill = Button(window,text="Total Bill",bg="White",font=("Cosmic Sans",12),command=TotalCost)
-TotalBill.place(x=200,y=400)
-window.mainloop()
+# Run the program
+if __name__ == "__main__":
+    main()
