@@ -33,3 +33,21 @@ x = np.searchsorted(c,7,side="left")
 print(x)
 d = np.searchsorted(c,[7,4,6])
 print(d)
+
+a = np.array([1,4,0,2,6])
+print(np.sort(a))
+
+b = np.array(['mango','apple','cherry'])
+print(np.sort(b))
+
+c = np.array([[3,2,4],[5,0,1]])
+print(np.sort(c))
+
+d = np.array([True,False,True])
+print(np.sort(d))
+
+#Filtering
+
+#Getting some elemtns out of an existing array & creating a new array
+#In np, you filter an array using a boolean index list
+#Boolean Condtions 

@@ -1,33 +1,31 @@
-import time
+from tkinter import *
+from tkinter import messagebox
 
-def countdown_timer(seconds):
-    """
-    Countdown timer that displays remaining time in MM:SS format.
-    :param seconds: Total countdown time in seconds (int)
-    """
-    # Validate input
-    if not isinstance(seconds, int) or seconds <= 0:
-        print("Please enter a positive integer for seconds.")
-        return
+window=Tk()
 
-    print(f"Starting countdown for {seconds} seconds...\n")
-    while seconds:
-        mins, secs = divmod(seconds, 60)  # Convert to minutes and seconds
-        timer_display = f"{mins:02d}:{secs:02d}"
-        print(timer_display, end="\r")  # Overwrite the same line
-        time.sleep(1)  # Wait for 1 second
-        seconds -= 1
+window.title("Driving License Eligibility") #Used to give the title 
+window.geometry("1000x1000") #size of window
+window.configure(bg="grey")
 
-    print("00:00\nTime's up! ⏰")
+nameentry = Entry(window,width=35,font=("EB Garmond",20),bg="white",fg="Darkblue")
+nameentry.place(x=100,y=250)
 
+name1 = Label(window,text= "Please enter your age! (Only Positive Numbers Allowed)",font=("EB Garmond",20),bg='white',fg='black')
+name1.place(x=100,y=200)
 
-def main():
-    try:
-        user_input = int(input("Enter countdown time in seconds: "))
-        countdown_timer(user_input)
-    except ValueError:
-        print("Invalid input. Please enter a valid integer.")
+name = Label(window,text= "Please enter your name!",font=("EB Garmond",20),bg='white',fg='black')
+name.place(x=100,y=350)
 
-# Run the program
-if __name__ == "__main__":
-    main()
+nameentry1 = Entry(window,width=35,font=("EB Garmond",20),bg="white",fg="Darkblue")
+nameentry1.place(x=100,y=400)
+
+def warningmessage():
+    Age = int(nameentry.get())
+    if Age < 18:
+        messagebox.showwarning("Wait","You are not old enough to drive")
+    else:
+        print("Your eligible for applying and your form will be evaluated")
+
+button = Button(window,text= "Submit",font=("EB Garmond",10), width=20,bg= "red", fg="Black",command=warningmessage)
+button.place(x=100,y=500)
+window.mainloop()
