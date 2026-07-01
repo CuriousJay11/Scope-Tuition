@@ -1,0 +1,92 @@
+book = []
+
+
+def show_list():
+    if len(book) == 0:
+        print("Book List is empty")
+    else:
+        print("\nBook List:")
+        i = 1
+        for item in book:
+           print(i, item)
+           i += 1
+
+
+def add_item():
+    item = input("Enter book to add: ")
+    if item in book:
+        print("Book already exists")
+    else:
+        book.append(item)
+        print("Added")
+
+
+def insert_item():
+    item = input("Enter Book to insert: ")
+    pos = int(input("Enter position (0-based index): "))
+    book.insert(pos, item)
+    print("Inserted")
+
+
+def remove_item():
+    item = input("Enter Book to remove: ")
+    if item in book:
+        book.remove(item)
+        print("Removed")
+    else:
+        print("Book not found")
+
+
+def remove_last():
+    if len(book) == 0:
+        print("List is empty")
+    else:
+        removed = book.pop()
+        print("Removed:", removed)
+
+
+def search_item():
+    item = input("Enter Book to search: ")
+    if item in book:
+        print("Found")
+    else:
+        print("Not found")
+
+
+def clear_list():
+    book.clear()
+    print(" Book List cleared")
+
+
+while True:
+    print("\n--- Book List ---")
+    print("1. Show Book List")
+    print("2. Add Book")
+    print("3. Insert Book")
+    print("4. Remove Book")
+    print("5. Remove Last Book")
+    print("6. Search Book")
+    print("7. Clear Book List")
+    print("8. Exit")
+
+    choice = input("Choose: ")
+
+    if choice == "1":
+        show_list()
+    elif choice == "2":
+        add_item()
+    elif choice == "3":
+        insert_item()
+    elif choice == "4":
+        remove_item()
+    elif choice == "5":
+        remove_last()
+    elif choice == "6":
+        search_item()
+    elif choice == "7":
+        clear_list()
+    elif choice == "8":
+        print("Goodbye")
+        break
+    else:
+        print("Invalid choice")

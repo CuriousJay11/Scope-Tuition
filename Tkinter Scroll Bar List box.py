@@ -20,4 +20,3 @@ scroll.config(command=Lb.xview)
 
 window.mainloop()
 
-
