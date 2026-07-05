@@ -1,0 +1,65 @@
+import sqlite3
+
+conn = sqlite3.connect("Hospital.db")
+print("Database Connected")
+
+cursor = conn.cursor()
+
+cursor.execute("""
+CREATE TABLE Patients (
+    id INTEGER PRIMARY KEY,
+    Disease TEXT,
+    Fees INTEGER,
+    Patient Name TEXT,
+)
+""")
+print("Table is Created")
+
+cursor.execute("DELETE FROM Patients")
+
+Patients = [
+    ("Rahul", 1200, "Scurvy"),
+    ("Virat", 5600, "Amesia"),
+    ("Patidar", 4800,"Goiter"),
+    ("Bhuveneshwar", 6200, "Marusmus")
+]
+
+cursor.executemany("""
+INSERT INTO Patients (Patient Name, Fees, Disease)
+VALUES (?, ?)
+""", Patients)
+
+conn.commit()
+
+cursor.execute("SELECT * FROM STUDENTS ORDER BY  marks DESC")
+data = cursor.fetchall()
+print(data)
+
+# COUNT Function
+cursor.execute("SELECT COUNT(*) FROM Patients")
+print("Total Patients:")
+print(cursor.fetchone()[0])
+
+# AVG Function
+cursor.execute("SELECT AVG(Fees) FROM Patients")
+print("Average Pages:")
+print(cursor.fetchone()[0])
+
+# MAX Function
+cursor.execute("SELECT MAX(Fees) FROM Patients")
+print("Maximum Fees:")
+print(cursor.fetchone()[0])
+
+# MIN Function
+cursor.execute("SELECT MIN(Fees) FROM Patients")
+print("Minimum Fees:")
+print(cursor.fetchone()[0])
+
+# SUM Function
+cursor.execute("SELECT SUM(Fees) FROM Patients")
+print("Total Fees:")
+print(cursor.fetchone()[0])
+
+
+
+conn.close()

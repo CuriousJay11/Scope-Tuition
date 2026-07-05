@@ -1,4 +1,4 @@
-Bucketlist = ["Skydiving","Bungee Jumping"]  # Show, Add(Append), Remove(.remove), Search(if in)
+Bucketlist = []  # Show, Add(Append), Remove(.remove), Search(if in)
 
 
 def show_list():

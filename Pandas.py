@@ -131,13 +131,37 @@ print(df)
 
 data = {
     "City": ["Delhi", "Dehli", "Mumbai", "Mumbai"],
-    "Sales": [2,00,000, 4,00,000, 1,00,000, 7,00,000],
+    "Sales": [200000, 400000, 100000, 700000],
 
 }
 
 df= pd.DataFrame(data)
 print(df)
 
-pivot = pd.pivot_table(df,values="Sales",index="City",aggfunc=["sum","mean","max"])
-print(pivot)
+#pivot = pd.pivot_table(df,values="Sales",index="City",aggfunc=["sum","mean","max"])
+#print(pivot)
+
+#-------------------------------------------------------------------------------------------------------------
+
+#Missing DATA value
+
+import numpy as np
+
+data = {"Name":["Vijay",'Chezhiyan','Rayyan','Neil'],
+        'Marks':[90,np.nan,95,np.nan],
+        "City":[np.nan,"Bangalore",np.nan,"Toronto"]
+        }
+
+df= pd.DataFrame(data)
+print(df)
+
+#Counting Missing VALUES
+
+print(df.isnull().sum())
+
+#DETECT IF ANY MISSING VALUES
+
+print(df.dropna())
+
+print(df.isnull()) # Checks missing values and which ones in true,false
 

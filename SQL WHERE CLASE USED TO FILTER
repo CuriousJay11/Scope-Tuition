@@ -1,0 +1,27 @@
+#Structured Query Language
+
+#MYSQL ,  SQLITE
+
+#Connect to db
+
+import sqlite3
+conn = sqlite3.connect("whereclause.db")
+print("Database Connected")
+cursor = conn.cursor()
+cursor.execute("""CREATE TABLE IF NOT EXISTS students(id INTEGER PRIMARY KEY,name TEXT,marks INTEGER)""")
+print("Table is Created")
+
+#Primary key - Column that uniquely identity of each row in a table
+
+Students = [("Alex",85),("Steve",90),("Kai",100)]
+
+cursor.executemany("""INSERT INTO students
+               (name,marks) VALUES(?,?)""",
+               Students
+               )
+
+conn.commit()
+print("Data inserted")
+cursor.execute("SELECT * FROM STUDENTS WHERE marks > 87")
+data = cursor.fetchall()
+print(data)
