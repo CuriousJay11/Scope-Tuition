@@ -1,0 +1,213 @@
+from tkinter import *
+from tkinter import messagebox
+from tkinter import ttk
+import numpy as np
+
+# -------------------------------------------------------------
+# OOP CLASS DATA & HOTEL BUSINESS LOGIC
+# -------------------------------------------------------------
+class HotelEngine:
+    def __init__(self):
+        # 1. Plain list defining different categories of rooms available
+        self.room_types = [
+            "Normal Standard Room", 
+            "Comfort Deluxe Room", 
+            "Premium Family Suite", 
+            "Executive Business Suite"
+        ]
+        
+        # 2. Simple Python dictionaries to map prices and status using room names
+        self.room_prices = {
+            "Normal Standard Room": 1200,
+            "Comfort Deluxe Room": 2500,
+            "Premium Family Suite": 4500,
+            "Executive Business Suite": 7500
+        }
+        
+        self.room_status = {
+            "Normal Standard Room": "Not Filled",
+            "Comfort Deluxe Room": "Not Filled",
+            "Premium Family Suite": "Not Filled",
+            "Executive Business Suite": "Not Filled"
+        }
+        
+        # 3. Simple list to log customer names who booked a room
+        self.customer_list = []
+
+    def process_room_payment(self, customer_name, room_name):
+        # Directly update status mapping using the room name text
+        self.room_status[room_name] = "Filled"
+        
+        # Add the customer name into our simple history list
+        self.customer_list.append(customer_name)
+        
+        # Pull out base value and perform standard calculations
+        base_price = self.room_prices[room_name]
+        cgst = base_price * 0.09
+        sgst = base_price * 0.09
+        
+        # NumPy use case: Adding the tax amounts together inside an array structure
+        tax_array = np.array([base_price, cgst, sgst])
+        total_bill = np.sum(tax_array)
+        
+        # Basic console tracking using common NumPy helper checks
+        all_prices = np.array(list(self.room_prices.values()))
+        print("\n--- Current Room Status Catalog Update ---")
+        print("Live Bookings Track Details:", self.room_status)
+        print("Total Customers Registered:", len(self.customer_list))
+        print("Highest priced baseline base room value card: ₹", np.max(all_prices))
+        print("------------------------------------------\n")
+        
+        return base_price, cgst, sgst, total_bill
+
+    def make_room_vacant(self, room_name):
+        self.room_status[room_name] = "Not Filled"
+
+# Initialize our core hotel engine framework object
+hotel_backend = HotelEngine()
+
+# -------------------------------------------------------------
+# FRONTEND INTERFACE DESIGN (TKINTER)
+# -------------------------------------------------------------
+window = Tk()
+window.title("Hotel Room Booking System") 
+window.geometry("900x700") 
+window.configure(bg="beige")
+
+def update_ui_table_rows():
+    for item in live_status_tree.get_children():
+        live_status_tree.delete(item)
+        
+    for name in hotel_backend.room_types:
+        price = f"₹{hotel_backend.room_prices[name]}"
+        status = hotel_backend.room_status[name]
+        live_status_tree.insert("", "end", values=(name, price, status))
+
+def click_book_button():
+    customer = nameentry.get().strip()
+    selected_room = room_combo_box.get()
+    
+    if customer == "":
+        messagebox.showerror("Error", "Please enter the customer name.")
+        return
+        
+    if selected_room == "":
+        messagebox.showerror("Error", "Please pick a room type from the list.")
+        return
+        
+    # Check directly if the room name status text matches "Filled"
+    if hotel_backend.room_status[selected_room] == "Filled":
+        messagebox.showerror("Taken", f"Sorry, the '{selected_room}' is already Filled!")
+        return
+        
+    # Pass text names straight through to processing methods
+    base, cgst, sgst, total = hotel_backend.process_room_payment(customer, selected_room)
+    
+    # Redraw table rows with new status updates
+    update_ui_table_rows()
+    
+    # Open billing popup invoice page window
+    invoice_popup = Toplevel(window)
+    invoice_popup.title("Hotel Bill")
+    invoice_popup.geometry("460x420")
+    invoice_popup.configure(bg="#f4f6f9")
+    
+    invoice_text = f"""
+    =========================================
+               HOTEL INVOICE & BILL          
+    =========================================
+    Customer Name : {customer}
+    Room Type     : {selected_room}
+    Base Price    : ₹{base:.2f}
+    CGST (9%)     : ₹{cgst:.2f}
+    SGST (9%)     : ₹{sgst:.2f}
+    -----------------------------------------
+    TOTAL PAID    : ₹{total:.2f}
+    =========================================
+    Status        : Paid Successfully
+    =========================================
+    
+    ⚠️ IMPORTANT CHECK-IN INSTRUCTIONS:
+    1. Booking successful!
+    2. Please bring your aadhar and booking print out with you.
+    """
+    
+    receipt_lbl = Label(invoice_popup, text=invoice_text, font=("Courier", 11), justify="left", bg="#f4f6f9", fg="#2c3e50")
+    receipt_lbl.pack(pady=20, padx=20)
+    
+    # Clear entry boxes so next customer can type smoothly
+    nameentry.delete(0, END)
+    room_combo_box.set("")
+    
+    # EXACT POPUP CONFIRMATION WINDOW DIRECTED BY USER
+    messagebox.showinfo("Success", f"Booking successful!\n\nPlease bring your aadhar and booking print out with you.")
+
+def click_checkout_button():
+    selected_room = room_combo_box.get()
+    
+    if selected_room == "":
+        messagebox.showerror("Error", "Please select a room type option from dropdown to check-out.")
+        return
+        
+    if hotel_backend.room_status[selected_room] == "Not Filled":
+        messagebox.showerror("Error", f"The room type '{selected_room}' is already vacant (Not Filled).")
+        return
+        
+    # Free up tracking tags based directly on text names
+    hotel_backend.make_room_vacant(selected_room)
+    update_ui_table_rows()
+    room_combo_box.set("")
+    messagebox.showinfo("Checked Out", f"The room type '{selected_room}' is now vacant.")
+
+# -------------------------------------------------------------
+# GRAPHICAL COORDINATE PLACEMENTS (.place layout design)
+# -------------------------------------------------------------
+heading = Label(window, text="🏨 Grand Royal Hotel Booking Portal", font=("EB Garmond", 24, "bold"), bg="white", fg="black")
+heading.place(x=50, y=30)
+
+sub_heading = Label(window, text="Simple customer interface for checking out rooms, calculation handling, and history log displays.", font=("EB Garmond", 11), bg="white", fg="grey")
+sub_heading.place(x=50, y=90)
+
+# Input parameters fields labels
+namelabel = Label(window, text="Customer Full Name:", font=("EB Garmond", 14, "bold"), bg='beige', fg='black')
+namelabel.place(x=50, y=150)
+
+nameentry = Entry(window, width=32, font=("EB Garmond", 14), bg="white", fg="black")
+nameentry.place(x=50, y=185)
+
+roomlabel = Label(window, text="Select Room Category Type:", font=("EB Garmond", 14, "bold"), bg='beige', fg='black')
+roomlabel.place(x=50, y=240)
+
+room_combo_box = ttk.Combobox(window, width=30, font=("EB Garmond", 14), state="readonly")
+room_combo_box["values"] = hotel_backend.room_types
+room_combo_box.place(x=50, y=275)
+
+# Operation control buttons
+book_btn = Button(window, text="💳 Process Payment & Book", font=("EB Garmond", 12, "bold"), bg="green", fg="white", width=28, height=2, command=click_book_button)
+book_btn.place(x=50, y=340)
+
+checkout_btn = Button(window, text="🔑 Check-Out Room Type", font=("EB Garmond", 12, "bold"), bg="darkred", fg="white", width=28, height=2, command=click_checkout_button)
+checkout_btn.place(x=50, y=410)
+
+# Base price structural matrix quick reference block
+info_lbl_box = Label(window, text="💰 Base Rates Catalog Card:\n----------------------------------------\n• Normal Room      : ₹1,200/N\n• Deluxe Room      : ₹2,500/N\n• Family Suite          : ₹4,500/N\n• Executive Suite     : ₹7,500/N", font=("Courier", 10, "bold"), bg="white", fg="black", justify="left", relief="solid", bd=1, padx=10, pady=10)
+info_lbl_box.place(x=50, y=490)
+
+# Right dashboard allocation display board layout
+table_heading = Label(window, text="📊 Live Room Allocation Status Table", font=("EB Garmond", 14, "bold"), bg="beige", fg="black")
+table_heading.place(x=450, y=150)
+
+columns_layout = ("category", "rate", "status")
+live_status_tree = ttk.Treeview(window, columns=columns_layout, show="headings", height=18)
+live_status_tree.heading("category", text="Room Type Category")
+live_status_tree.heading("rate", text="Base Price")
+live_status_tree.heading("status", text="Current Status")
+
+live_status_tree.column("category", width=180, anchor="w")
+live_status_tree.column("rate", width=100, anchor="center")
+live_status_tree.column("status", width=120, anchor="center")
+live_status_tree.place(x=450, y=185)
+
+# Render base data views and initiate loop handlers
+update_ui_table_rows()
+window.mainloop()

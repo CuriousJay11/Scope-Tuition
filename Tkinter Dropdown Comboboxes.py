@@ -1,16 +1,16 @@
 from tkinter import *
 from tkinter import ttk
 
-root = Tk()
-root.title("Select Course")
+window = Tk()
+window.title("Select Course")
 
-course = ttk.Combobox(root)
-course["values"] = ('Python','Java','C++')
+course = ttk.Combobox(window)
+course["values"] = ('1','2','3','4','5','6','7','8','9','10')
 course.pack()
 
 def show():
     print(course.get())
 
-Button(root, text="Select Course", command=show).pack(pady=10)
+Button(window, text="Select Course", command=show).pack(pady=10)
 
-root.mainloop()
+window.mainloop()

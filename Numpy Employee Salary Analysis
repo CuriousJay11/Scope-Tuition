@@ -1,0 +1,40 @@
+import numpy as np
+
+employee = np.array(["Alex", "Rio", "Manny", "Leo"])
+salary = np.array([1235, 785, 2456, 1236])
+
+print("Employees:", employee)
+print("Salary:", salary)
+
+print("\nTotal Salary:", np.sum(salary))
+
+#Topper
+topper_index = np.argmax(salary)
+print("Highest Salary:",employee[topper_index])
+print("In employees salary above 1235")
+print(employee[salary>1235])
+
+low_index = np.argmin(salary)
+print("Lowest Salary:",employee[low_index])
+print("\n Sorted Salary:")
+print(np.sort(salary))
+
+print("\n Low/High Salary")
+for i in range(len(employee)):
+    if salary[i]>1235:
+        print(employee[i],"High")
+    else:
+        print(employee[i],"Low")
+
+print("\n Salary")
+for i in range(len(employee)):
+    if salary[i]>=2000:
+        status = 'Wealthy'
+    elif salary[i]>= 1000:
+        status = 'Middle Class'
+    elif salary[i]>= 500:
+        status = 'Poor'
+    else:
+        status = 'Undefined'
+
+    print(employee[i],":",status)

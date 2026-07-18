@@ -6,11 +6,11 @@ print("Database Connected")
 cursor = conn.cursor()
 
 cursor.execute("""
-CREATE TABLE Patients (
+CREATE TABLE IF NOT EXISTS Patients (
     id INTEGER PRIMARY KEY,
-    Disease TEXT,
+     Patient_Name TEXT,
     Fees INTEGER,
-    Patient Name TEXT,
+    Disease TEXT
 )
 """)
 print("Table is Created")
@@ -25,15 +25,17 @@ Patients = [
 ]
 
 cursor.executemany("""
-INSERT INTO Patients (Patient Name, Fees, Disease)
-VALUES (?, ?)
+INSERT INTO Patients (Patient_Name, Fees, Disease)
+VALUES (?, ?,?)
 """, Patients)
 
 conn.commit()
 
-cursor.execute("SELECT * FROM STUDENTS ORDER BY  marks DESC")
+cursor.execute("SELECT * FROM Patients ORDER BY  fees DESC")
 data = cursor.fetchall()
 print(data)
+for row in data :
+    print(row)
 
 # COUNT Function
 cursor.execute("SELECT COUNT(*) FROM Patients")
@@ -42,7 +44,7 @@ print(cursor.fetchone()[0])
 
 # AVG Function
 cursor.execute("SELECT AVG(Fees) FROM Patients")
-print("Average Pages:")
+print("Average Fees:")
 print(cursor.fetchone()[0])
 
 # MAX Function
